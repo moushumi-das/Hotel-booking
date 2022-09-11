@@ -9,18 +9,25 @@ useNewUrlParser: true,
 useUnifiedTopology: true,
 };
 const addRoom = async (req, res) => {
+    const hotelId = req.params.hotelid;
+    console.log('hotelId',hotelId)
   const client = new MongoClient(MONGO_URI, options);
   await client.connect();
   const db = client.db("hotelBooking");
   try {
     const result = await db.collection("rooms").insertOne(req.body);
- 
-    console.log(result, result);
-    res.status(200).json({ status: 200, data: result });
+   const hotel=await db.collection("hotels").findOne({ _id:ObjectId(hotelId) })
+   console.log('hotel',hotel)
+
+    const updatedHotel= await db.collection("hotels").updateOne({_id:ObjectId(hotelId)},{ $push:{rooms:result.insertedId}})
+
+    res.status(200).json({ status: 200, data: result});
   } catch (err) {
     console.log(err.stack);
     res.status(404).json({ status: 404, _id, data: "Not Found" });
   }
+ 
+
 };
 
 const getRooms = async (req, res) => {
@@ -77,12 +84,16 @@ const updateRoom = async (req, res) => {
 
 const deleteRoom = async (req, res) => {
   const client = new MongoClient(MONGO_URI, options);
+  const hotelId = req.params.hotelid;
+    console.log('hotelId',hotelId)
   await client.connect();
   const db = client.db("hotelBooking");
   try {
     const result = await db
       .collection("rooms")
-      .deleteOne({ _id: ObjectId(req.params.hotel) });
+      .deleteOne({ _id: ObjectId(req.params.room) });
+       
+    const updatedHotel= await db.collection("hotels").updateOne({_id:ObjectId(hotelId)},{ $pull:{rooms:ObjectId(req.params.room)}})
     res.status(200).json({ status: 200, data: result });
 
   } catch (err) {

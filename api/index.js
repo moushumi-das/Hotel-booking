@@ -3,6 +3,7 @@ const morgan = require("morgan");
 const {auth} =require("./handlers/auth")
 const {addHotel,getHotels,deleteHotel, updateHotel}=require("./handlers/hotels");
 const {getRooms,addRoom,getRoomById,deleteRoom,updateRoom} =require("./handlers/rooms");
+const { signUp, signIn,updateUser }=require("./handlers/auth")
 
 require("dotenv").config();
 const app = express()
@@ -32,16 +33,20 @@ const connect=async()=>{
     }
 }
 app.get("/",(req,res)=>{res.send("hello first request!")})
-app.get("/api/auth",auth)
+
 app.get("/api/available-hotels",getHotels)
 app.post("/api/hotel",addHotel)
 app.delete("/api/delete-hotel/:hotel", deleteHotel)
 app.patch("/api/update-hotel/:hotel",updateHotel)
 
 app.get("/api/available-rooms",getRooms)
-app.post("/api/room",addRoom)
-app.delete("/api/delete-room/:room", deleteRoom)
+app.post("/api/create-room/:hotelid",addRoom)
+app.delete("/api/delete-room/:room/:hotelid", deleteRoom)
 app.patch("/api/update-room/:room",updateRoom)
+
+app.post("/api/signup", signUp) // this endpoint will be used to create new user
+app.post("/api/signIn", signIn) // this endpoint will be used for sign in
+
 app.get("*", (req, res) => {
     res.status(404).json({
     status: 404,
