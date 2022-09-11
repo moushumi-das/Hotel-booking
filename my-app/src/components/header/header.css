@@ -1,6 +1,6 @@
 .header{
-    background-color: #0071c2;
-    color:white;
+    background-color: transparent;
+    color:rgb(56, 53, 53);
     display: flex;
     justify-content: center;
     position: relative;
@@ -37,16 +37,16 @@
 
 .headerButton{
     background-color: #96ccf1;
-    color:white;
+    color:blue;
     font-weight: 500;
     border: none;
     padding: 10px;
     cursor:pointer;
 }
 .searchBar{
-    height:30px;
+    height:38px;
     background-color: white;
-    border:3px solid #febb02;
+    border:2px solid rgb(182, 180, 180);
     display:flex;
     align-items: center;
     justify-content: space-around;
@@ -55,6 +55,7 @@
     bottom:-25px;
     width: 100%;
     max-width: 1274px;
+    padding-top: 12px;
 }
 .searchItem {
   display: flex;
@@ -77,6 +78,7 @@
 .date{
     position:absolute;
     top:50px;
+    z-index: 2;
 }
 
 .options {
