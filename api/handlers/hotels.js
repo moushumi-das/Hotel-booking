@@ -73,15 +73,18 @@ const getHotelsByCity = async (req,res)=>{
 }
 
 const getHotelsByType = async (req,res)=>{
-    const client = new MongoClient(MONGO_URI, options);
+  const client = new MongoClient(MONGO_URI, options);
   await client.connect();
   const db = client.db("hotelBooking");
+  
+  
+
   const cities= req.query.cities.split(",")
    try {
-   const hotels = await Promise.all(cities.map(city=>{
-       return db.collection("hotels").countDocuments({type:city}) }))
-    console.log("hotels", hotels);
-    res.status(200).json({ status: 200, data: hotels });
+    const hotelCount=db.collection("hotels").countDocuments({type:"hotel"});
+    const cabinCount=db.collection("hotels").countDocuments({type:"cottage"});
+    const apartmentCount = db.collection("hotels").countDocuments({type:"apartment"})
+    res.status(200).json([{type:"hotel",count:hotelCount},{type:"cottage",count:cabinCount},{type:"apartment",count:apartmentCount}]);
   } catch (err) {
     console.log(err.stack);
     res.status(404).json({ status: 404, _id, data: "Not Found" });
