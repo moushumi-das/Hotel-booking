@@ -124,4 +124,4 @@ const deleteHotel = async (req, res) => {
   }
 };
 
-module.exports={addHotel,getHotels,deleteHotel,updateHotel,getHotelsByCity}
+module.exports={addHotel,getHotels,deleteHotel,updateHotel,getHotelsByCity,getHotelsByType}
