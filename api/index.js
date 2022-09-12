@@ -1,7 +1,7 @@
 const express = require("express");
 const morgan = require("morgan");
 const {auth} =require("./handlers/auth")
-const {addHotel,getHotels,deleteHotel, updateHotel,getHotelsByCity}=require("./handlers/hotels");
+const {addHotel,getHotels,deleteHotel, updateHotel,getHotelsByCity,getHotelsByType}=require("./handlers/hotels");
 const {getRooms,addRoom,getRoomById,deleteRoom,updateRoom} =require("./handlers/rooms");
 const { signUp, signIn,updateUser }=require("./handlers/auth")
 
@@ -47,6 +47,7 @@ app.patch("/api/update-room/:room",updateRoom)
 app.post("/api/signup", signUp) // this endpoint will be used to create new user
 app.post("/api/signIn", signIn) // this endpoint will be used for sign in
 app.get("/api/countByCity",getHotelsByCity)
+app.get("/api/countByType",getHotelsByType )
 app.get("*", (req, res) => {
     res.status(404).json({
     status: 404,
