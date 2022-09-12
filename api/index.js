@@ -1,7 +1,7 @@
 const express = require("express");
 const morgan = require("morgan");
 const {auth} =require("./handlers/auth")
-const {addHotel,getHotels,deleteHotel, updateHotel}=require("./handlers/hotels");
+const {addHotel,getHotels,deleteHotel, updateHotel,getHotelsByCity}=require("./handlers/hotels");
 const {getRooms,addRoom,getRoomById,deleteRoom,updateRoom} =require("./handlers/rooms");
 const { signUp, signIn,updateUser }=require("./handlers/auth")
 
@@ -35,7 +35,7 @@ const connect=async()=>{
 app.get("/",(req,res)=>{res.send("hello first request!")})
 
 app.get("/api/available-hotels",getHotels)
-app.post("/api/hotel",addHotel)
+app.post("/api/create-hotel",addHotel)
 app.delete("/api/delete-hotel/:hotel", deleteHotel)
 app.patch("/api/update-hotel/:hotel",updateHotel)
 
@@ -46,7 +46,7 @@ app.patch("/api/update-room/:room",updateRoom)
 
 app.post("/api/signup", signUp) // this endpoint will be used to create new user
 app.post("/api/signIn", signIn) // this endpoint will be used for sign in
-
+app.get("/api/countByCity",getHotelsByCity)
 app.get("*", (req, res) => {
     res.status(404).json({
     status: 404,

@@ -55,6 +55,39 @@ const getHotelById = async (req, res) => {
   }
 };
 
+const getHotelsByCity = async (req,res)=>{
+    const client = new MongoClient(MONGO_URI, options);
+  await client.connect();
+  const db = client.db("hotelBooking");
+  const cities= req.query.cities.split(",");
+  console.log('cities',cities)
+   try {
+   const hotels = await Promise.all(cities.map(city=>{
+       return db.collection("hotels").countDocuments({city:city}) }))
+    console.log("hotels", hotels);
+    res.status(200).json({ status: 200, data: hotels });
+  } catch (err) {
+    console.log(err.stack);
+    res.status(404).json({ status: 404, _id, data: "Not Found" });
+  }
+}
+
+const getHotelsByType = async (req,res)=>{
+    const client = new MongoClient(MONGO_URI, options);
+  await client.connect();
+  const db = client.db("hotelBooking");
+  const cities= req.query.cities.split(",")
+   try {
+   const hotels = await Promise.all(cities.map(city=>{
+       return db.collection("hotels").countDocuments({type:city}) }))
+    console.log("hotels", hotels);
+    res.status(200).json({ status: 200, data: hotels });
+  } catch (err) {
+    console.log(err.stack);
+    res.status(404).json({ status: 404, _id, data: "Not Found" });
+  }
+}
+
 const updateHotel = async (req, res) => {
     console.log('inside gethotels')
   const client = new MongoClient(MONGO_URI, options);
@@ -91,4 +124,4 @@ const deleteHotel = async (req, res) => {
   }
 };
 
-module.exports={addHotel,getHotels,deleteHotel,updateHotel}
+module.exports={addHotel,getHotels,deleteHotel,updateHotel,getHotelsByCity}
