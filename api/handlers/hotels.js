@@ -77,13 +77,10 @@ const getHotelsByType = async (req,res)=>{
   await client.connect();
   const db = client.db("hotelBooking");
   
-  
-
-  const cities= req.query.cities.split(",")
-   try {
-    const hotelCount=db.collection("hotels").countDocuments({type:"hotel"});
-    const cabinCount=db.collection("hotels").countDocuments({type:"cottage"});
-    const apartmentCount = db.collection("hotels").countDocuments({type:"apartment"})
+    try {
+    const hotelCount=await db.collection("hotels").countDocuments({type:"hotel"});
+    const cabinCount=await db.collection("hotels").countDocuments({type:"cottage"});
+    const apartmentCount = await db.collection("hotels").countDocuments({type:"apartment"})
     res.status(200).json([{type:"hotel",count:hotelCount},{type:"cottage",count:cabinCount},{type:"apartment",count:apartmentCount}]);
   } catch (err) {
     console.log(err.stack);
