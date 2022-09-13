@@ -56,6 +56,22 @@ const getFeaturedHotel = async (req, res) => {
   }
 };
 
+const getHotelsByDestination=async(req,res) =>{
+  const client = new MongoClient(MONGO_URI, options);
+  await client.connect();
+  const db = client.db("hotelBooking");
+  try {
+    const {min,max,...others}=req.query
+   const result = await db.collection("hotels").find({...others, cheapestPrice:{$gt:min |1,$lt:max||999}).toArray();
+ 
+    console.log("hotels", result);
+    res.status(200).json({ status: 200, data: result });
+  } catch (err) {
+    console.log(err.stack);
+    res.status(404).json({ status: 404, _id, data: "Not Found" });
+  }
+}
+
 const getHotelById = async (req, res) => {
     console.log('inside gethotels')
   const client = new MongoClient(MONGO_URI, options);
@@ -141,4 +157,4 @@ const deleteHotel = async (req, res) => {
   }
 };
 
-module.exports={addHotel,getHotels,deleteHotel,updateHotel,getHotelsByCity,getHotelsByType,getFeaturedHotel}
+module.exports={addHotel,getHotels,deleteHotel,updateHotel,getHotelsByCity,getHotelsByType,getFeaturedHotel,getHotelsByDestination}
