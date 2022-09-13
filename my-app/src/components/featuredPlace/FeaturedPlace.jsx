@@ -1,9 +1,24 @@
- import React from "react";
+ import React,{useEffect,useState} from "react";
+ import useFetch from "../../useFetchData"
  import "./featuredPlace.css"
 const FeaturedComponent=()=>{
+    const [featuredHotel, setFeaturedHotel] = useState("");
+const fetchedHotels = async () => {
+    const response = await fetch(`/api/countByCity?cities=Calgary,Winnipeg`);
+    const result = await response.json();
+    console.log("hotels",result)
+    setFeaturedHotel(result)
+    return result;
+  };
+  useEffect(() => {
+    fetchedHotels();
+  },[]);
+console.log(featuredHotel)
     return (
         <div className="featuredPlace">
-            <div className="featuredItem">
+           {
+
+         <> <div className="featuredItem">
                 <img src="https://cf.bstatic.com/xdata/images/city/max500/957801.webp?k=a969e39bcd40cdcc21786ba92826063e3cb09bf307bcfeac2aa392b838e9b7a5&o=" alt="" className="itemImg"/>
                 <div className="itemTitles">
                      <h1>Bangladesh</h1>
@@ -36,7 +51,11 @@ const FeaturedComponent=()=>{
                     <h2>532 properties</h2>
                 </div>
             </div>
+              </>
+    }
         </div>
+    
+     
     )
 }
 export default FeaturedComponent
