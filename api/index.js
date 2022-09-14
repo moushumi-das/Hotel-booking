@@ -1,7 +1,7 @@
 const express = require("express");
 const morgan = require("morgan");
 const {auth} =require("./handlers/auth")
-const {addHotel,getHotels,deleteHotel, updateHotel,getHotelsByCity,getHotelsByType,getFeaturedHotel}=require("./handlers/hotels");
+const {addHotel,getHotels,deleteHotel, updateHotel,getHotelsByCity,getHotelsByType,getFeaturedHotel,getHotelsByDestination}=require("./handlers/hotels");
 const {getRooms,addRoom,getRoomById,deleteRoom,updateRoom} =require("./handlers/rooms");
 const { signUp, signIn,updateUser }=require("./handlers/auth")
 
@@ -39,6 +39,7 @@ app.get("/api/featured-hotel",getFeaturedHotel)
 app.post("/api/create-hotel",addHotel)
 app.delete("/api/delete-hotel/:hotel", deleteHotel)
 app.patch("/api/update-hotel/:hotel",updateHotel)
+app.get("/api/hotels",getHotelsByDestination)
 
 app.get("/api/available-rooms",getRooms)
 app.post("/api/create-room/:hotelid",addRoom)

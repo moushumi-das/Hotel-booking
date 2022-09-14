@@ -61,8 +61,12 @@ const getHotelsByDestination=async(req,res) =>{
   await client.connect();
   const db = client.db("hotelBooking");
   try {
+    console.log("query",req.query)
     const {min,max,...others}=req.query
-   const result = await db.collection("hotels").find({...others, cheapestPrice:{$gt:min |1,$lt:max||999}).toArray();
+    const minPrice=parseInt(min)
+    const maxPrice=parseInt(max)
+    console.log('min',minPrice,maxPrice)
+   const result = await db.collection("hotels").find({...others, cheapestPrice:{$gt:minPrice,$lt:maxPrice}}).toArray();
  
     console.log("hotels", result);
     res.status(200).json({ status: 200, data: result });
