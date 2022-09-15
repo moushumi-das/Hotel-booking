@@ -1,7 +1,7 @@
 const express = require("express");
 const morgan = require("morgan");
 const {auth} =require("./handlers/auth")
-const {addHotel,getHotels,deleteHotel, updateHotel,getHotelsByCity,getHotelsByType,getFeaturedHotel,getHotelsByDestination}=require("./handlers/hotels");
+const {addHotel,getHotels,getHotelById,deleteHotel, updateHotel,getHotelsByCity,getHotelsByType,getFeaturedHotel,getHotelsByDestination}=require("./handlers/hotels");
 const {getRooms,addRoom,getRoomById,deleteRoom,updateRoom} =require("./handlers/rooms");
 const { signUp, signIn,updateUser }=require("./handlers/auth")
 
@@ -35,6 +35,7 @@ const connect=async()=>{
 app.get("/",(req,res)=>{res.send("hello first request!")})
 
 app.get("/api/available-hotels",getHotels)
+app.get("/api/hotels/:hotelId",getHotelById)
 app.get("/api/featured-hotel",getFeaturedHotel)
 app.post("/api/create-hotel",addHotel)
 app.delete("/api/delete-hotel/:hotel", deleteHotel)

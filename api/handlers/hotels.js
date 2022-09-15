@@ -66,7 +66,7 @@ const getHotelsByDestination=async(req,res) =>{
     const minPrice=parseInt(min)
     const maxPrice=parseInt(max)
     console.log('min',minPrice,maxPrice)
-   const result = await db.collection("hotels").find({...others, cheapestPrice:{$gt:minPrice,$lt:maxPrice}}).toArray();
+   const result = await db.collection("hotels").find({...others, cheapestPrice:{$gt:minPrice||1,$lt:maxPrice||999}}).toArray();
  
     console.log("hotels", result);
     res.status(200).json({ status: 200, data: result });
@@ -77,14 +77,13 @@ const getHotelsByDestination=async(req,res) =>{
 }
 
 const getHotelById = async (req, res) => {
-    console.log('inside gethotels')
   const client = new MongoClient(MONGO_URI, options);
   await client.connect();
   const db = client.db("hotelBooking");
   try {
-   const result = await db.collection("hotels").findOne({ _id: ObjectId(_id) });
+   const result = await db.collection("hotels").findOne({ _id: ObjectId(req.params.hotelId) });
  
-    console.log("hotels", result);
+    console.log("hotel searched by Id", result);
     res.status(200).json({ status: 200, data: result });
   } catch (err) {
     console.log(err.stack);
@@ -161,4 +160,4 @@ const deleteHotel = async (req, res) => {
   }
 };
 
-module.exports={addHotel,getHotels,deleteHotel,updateHotel,getHotelsByCity,getHotelsByType,getFeaturedHotel,getHotelsByDestination}
+module.exports={addHotel,getHotelById,getHotels,deleteHotel,updateHotel,getHotelsByCity,getHotelsByType,getFeaturedHotel,getHotelsByDestination}
