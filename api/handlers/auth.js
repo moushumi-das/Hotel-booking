@@ -67,6 +67,7 @@ const updateUser = async (req, res) => {
 // signIn method will check if we have this user in Database
 const signIn = async (req, res) => {
   const data = req.body;
+  console.log("user details",data)
   try {
     await client.connect();
     const db = client.db("hotelBooking");

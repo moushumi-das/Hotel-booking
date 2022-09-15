@@ -2,14 +2,16 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
 import App from './App';
-import {SearchContextProvider}from "./SearchContext"
+import {SearchContextProvider}from "./SearchContext";
+import { AuthContextProvider } from "./AuthContext";
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
     <SearchContextProvider>
-
-    <App />
+      <AuthContextProvider>
+        <App />
+      </AuthContextProvider>
     </SearchContextProvider>
   </React.StrictMode>
 );
