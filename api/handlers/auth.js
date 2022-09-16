@@ -73,7 +73,7 @@ const signIn = async (req, res) => {
     const db = client.db("hotelBooking");
     const isUser = await db.collection("users").findOne({ email: data.email });
 
-    if (isUser && isUser.password === data.password) {
+    if (isUser && isUser.password.toString() === data.password) {
       //creating token for athunticated user using jsonWebToken
       const token = jwt.sign(
         { name: isUser.userName, email: isUser.email },

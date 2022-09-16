@@ -24,6 +24,7 @@ const Login = () => {
     dispatch({ type: "LOGIN_START" });
 
     try {
+        console.log('credentials',credentials)
       const response = await fetch(`/api/signIn`, {
       method: "POST",
       headers: {
@@ -34,8 +35,12 @@ const Login = () => {
     });
     const fetchData = await response.json();
     console.log('fetchData',fetchData);
+    
+if (fetchData?.status===200){ 
+    localStorage.setItem("email",fetchData.data.email)
     dispatch({ type: "LOGIN_SUCCESS", payload: fetchData.data?.details });
-      navigate("/")
+      navigate("/")}
+   
     } catch (err) {
       dispatch({ type: "LOGIN_FAILURE", payload: err });
     }
