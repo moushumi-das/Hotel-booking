@@ -7,7 +7,7 @@ import { SearchContext } from "../../SearchContext";
 import { useNavigate } from "react-router-dom";
 
 const Reservation = ({ setOpen, hotelId }) => {
-    console.log("inside reservation component")
+    
   const [selectedRooms, setSelectedRooms] = useState([]);
   const [data,setData]=useState();
   const[roomNumber,setRoomNumber]=useState();
@@ -16,7 +16,7 @@ const Reservation = ({ setOpen, hotelId }) => {
      const fetchedHotel = async () => {
     const response = await fetch(`/api/room/${hotelId}`);
     const result = await response.json();
-    console.log("room information by hotelId",result)
+  
     setData(result.data)
   };
   useEffect(() => {
@@ -39,9 +39,9 @@ const Reservation = ({ setOpen, hotelId }) => {
 
     return dates;
   };
-
+console.log('date',date)
   const alldates = getDatesInRange(date[0].startDate, date[0].endDate);
-
+console.log('alldates',alldates)
   const isAvailable = (roomNumber) => {
     const isFound = roomNumber.unavailableDates.some((date) =>
       alldates.includes(new Date(date).getTime())
@@ -55,8 +55,7 @@ const Reservation = ({ setOpen, hotelId }) => {
     const value = e.target.value;
     setRoomNumber(roomNumber)
     setSelectedRoomId(id)
-    console.log('selected value:',roomNumber,id)
-    console.log(typeof roomNumber)
+  
 
     setSelectedRooms(
       checked
@@ -105,12 +104,12 @@ const Reservation = ({ setOpen, hotelId }) => {
               <div className="rMax">
                 Max people: <b>{item?.maxPeople}</b>
               </div>
-              <div className="rPrice">{item?.price}</div>
+              <div className="rPrice">${item?.price}</div>
             </div>
             <div className="rSelectRooms">
               {item?.roomNumbers?.map((roomNumber) => (
                 <div className="room">
-                  <label>{roomNumber?.number}</label>
+                  <label style={{'font':"14px",}}>{roomNumber?.number}</label>
                   <input
                     type="checkbox"
                     value={{number:roomNumber?.number,id:item._id}}

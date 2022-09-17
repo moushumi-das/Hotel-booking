@@ -6,7 +6,6 @@ import { AuthContext } from "../../AuthContext";
 const Navbar = ()=>{
       const { state } = useContext(AuthContext);
       const {user}=state
-console.log('user from context in navbar',user)
     return (
         <div className="navbar">
                 <div className="navContainer">

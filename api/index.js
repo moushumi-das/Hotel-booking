@@ -14,8 +14,7 @@ app.use(express.static("public"))
 const { MongoClient, ObjectId } = require("mongodb");
 
 
-const MONGO_URI =
-  "mongodb+srv://moushumi:Moushumi@cluster0.k6jm7v7.mongodb.net/?retryWrites=true&w=majority";
+const MONGO_URI="mongodb+srv://moushumi:Moushumi*32@cluster0.2ytzte0.mongodb.net/?retryWrites=true&w=majority"
 
 console.log("MONGO_URI", MONGO_URI);
 const options = {

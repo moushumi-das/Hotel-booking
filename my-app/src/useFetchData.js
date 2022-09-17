@@ -11,9 +11,7 @@ const useFetch = (url) => {
       try {
         const res = await fetch(url,{method: 'GET',mode:'no-cors',  headers: {
       'Content-Type': 'application/json'
-      // 'Content-Type': 'application/x-www-form-urlencoded',
     }});
-        console.log('response',res)
         const result = await res.json();
         setData(result.data);
       } catch (err) {

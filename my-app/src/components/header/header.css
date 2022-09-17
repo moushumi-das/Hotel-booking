@@ -14,8 +14,9 @@
 
 .headerList{
     display: flex;
-    gap:40px;
+    gap:50px;
       margin-bottom: 50px;
+      margin-left: 20px
 ;
 }
 
@@ -35,13 +36,14 @@
     margin:20px 0px;
 }
 
-.headerButton{
-    background-color: #96ccf1;
-    color:blue;
+.headerBtn{
+    background-color: #0071c2;
+    color:whitesmoke;
     font-weight: 500;
     border: none;
     padding: 10px;
     cursor:pointer;
+    margin-bottom: 10px;
 }
 .searchBar{
     height:38px;
@@ -61,6 +63,7 @@
   display: flex;
   align-items: center;
   gap: 10px;
+  outline: none;
 }
 .headerIcon{
     color:lightgray;

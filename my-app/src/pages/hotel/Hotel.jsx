@@ -40,8 +40,8 @@ const Hotel = () => {
   }
 
   const days = dayDifference(date[0]?.endDate, date[0]?.startDate);
-  console.log('days',days)
-console.log('user::',user)
+  localStorage.setItem('days',days)
+ 
 
    const handleClick = () => {
      

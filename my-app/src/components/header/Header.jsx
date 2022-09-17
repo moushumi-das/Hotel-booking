@@ -8,6 +8,7 @@ import { format } from "date-fns";
 import { DateRange } from "react-date-range";
 import { useNavigate } from "react-router-dom";
 import { SearchContext } from "../../SearchContext";
+import { AuthContext } from "../../AuthContext";
 
 
 const Header = ({type})=>{
@@ -21,6 +22,8 @@ const Header = ({type})=>{
       key: "selection",
     },
   ]);
+  const { state } = useContext(AuthContext);
+      const {user}=state
 
   const [openOptions, setOpenOptions] = useState(false);
   const [options, setOptions] = useState({
@@ -52,10 +55,7 @@ const Header = ({type})=>{
                     <FontAwesomeIcon icon={faBed} />             
                     <span>Stays</span>
                     </div>
-                    <div className="headerListItem">
-                    <FontAwesomeIcon icon={faPlane} />             
-                    <span>Flights</span>
-                    </div>
+                    
                     <div className="headerListItem">
                     <FontAwesomeIcon icon={faCar} />             
                     <span>Car Rentals</span>
@@ -77,7 +77,8 @@ const Header = ({type})=>{
             <p className="headerDescription">
                 cnxc ncnsc zxx sjads nsmdns sz\m akj djsdj skmka sam sksj jd hxz ncxmnc mcxnc
             </p>
-            <button className="headerButton">Sign in /Register</button>
+            {!user&&<button className="headerButton">Sign in /Register</button>}
+            
             <div className="searchBar">
                 <div className="searchItem">
                 <input 
@@ -149,11 +150,9 @@ const Header = ({type})=>{
             
             
                 </div>
-                <div className="searchItem">
-                    <button className="headerBtn" onClick={handleSearch} >
+                <button className="headerBtn" onClick={handleSearch} >
                         Search
                     </button>
-                </div>
             </div>
              </>
              )}

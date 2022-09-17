@@ -3,8 +3,7 @@ require("dotenv").config();
 const jwt = require("jsonwebtoken");
 
 const MONGO_URI =
-"mongodb+srv://moushumi:Moushumi@cluster0.k6jm7v7.mongodb.net/?retryWrites=true&w=majority";
-
+"mongodb+srv://moushumi:Moushumi*32@cluster0.2ytzte0.mongodb.net/?retryWrites=true&w=majority"
 const options = {
   useNewUrlParser: true,
   useUnifiedTopology: true,
@@ -67,7 +66,6 @@ const updateUser = async (req, res) => {
 // signIn method will check if we have this user in Database
 const signIn = async (req, res) => {
   const data = req.body;
-  console.log("user details",data)
   try {
     await client.connect();
     const db = client.db("hotelBooking");
