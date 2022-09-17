@@ -8,7 +8,7 @@ const FeaturedProperties = () => {
      const fetchedFeaturedHotel = async () => {
     const response = await fetch(`/api/featured-hotel`);
     const result = await response.json();
-    console.log("feturedHotel",result)
+  
     setFeaturedHotel(result)
     return result;
   };

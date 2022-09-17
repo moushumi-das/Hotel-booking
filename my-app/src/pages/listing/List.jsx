@@ -9,7 +9,6 @@ import SearchItem from "../../components/searchItem/SearchItem";
 
 const List = () => {
   const location = useLocation();
-  console.log('location',location)
   const [destination, setDestination] = useState(location.state?.destination);
   const [date, setDate] = useState(location.state?.date);
   const [openDate, setOpenDate] = useState(false);
@@ -27,10 +26,8 @@ const List = () => {
     fetchedFeaturedHotel();
   },[]);
    const reFetchedHotels = async () => {
-    console.log(`/api/hotels?city=${destination}&min=${min||0}&max=${max ||999}`)
     const response = await fetch(`/api/hotels?city=${destination}&min=${min||0}&max=${max ||999}`);
     const result = await response.json();
-        console.log("result with selected price",result)
 
     setData(result.data)
   };

@@ -35,7 +35,6 @@ const Login = () => {
     const fetchData = await response.json();
     
 if (fetchData?.status===200){ 
-    console.log(fetchData)
     localStorage.setItem("token",fetchData?.token)
     dispatch({ type: "LOGIN_SUCCESS", payload: fetchData.data });
       navigate("/")}
@@ -45,7 +44,6 @@ if (fetchData?.status===200){
     }
   };
 
-console.log('user',user)
   return (
     <div className="login">
       <div className="lContainer">

@@ -12,7 +12,7 @@ const Navbar = ()=>{
                     <Link to="/" style={{color:"white",textDecoration:"none"}}>
                     <span className="logo">luxaryBooking</span>
                     </Link>
-                    {user ? user.username : (
+                    {user ? user.userName : (
           <div className="navItems">
             <button className="navButton">Register</button>
             <Link to="/login">

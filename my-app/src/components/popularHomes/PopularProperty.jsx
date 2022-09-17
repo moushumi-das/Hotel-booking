@@ -19,7 +19,7 @@ const PopularPropertyList = () => {
   useEffect(() => {
     fetchedProperty();
   },[]);
-  console.log(propertyList)
+
 
   return (
     <div className="propertyList">

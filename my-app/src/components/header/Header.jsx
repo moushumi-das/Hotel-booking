@@ -73,17 +73,17 @@ const Header = ({type})=>{
             {type !== "list" && (
             <>
         
-            <h1 className="headerTitle">Abhdbfndnsd sdn sdnnsdndn fbsd</h1>
+            <h1 className="headerTitle">Amazing hotels to stay in Canada</h1>
             <p className="headerDescription">
-                cnxc ncnsc zxx sjads nsmdns sz\m akj djsdj skmka sam sksj jd hxz ncxmnc mcxnc
+                Book hotels with us, experience best service in a budget.
             </p>
             {!user&&<button className="headerButton">Sign in /Register</button>}
             
             <div className="searchBar">
                 <div className="searchItem">
-                <input 
+                <input style={{backgroundColor:"trasparent"}}
                 type="text"
-                placeholder="what's your destination"
+                placeholder="destination"
                 className="searchInput"
                 onChange={(e)=>setDestination(e.target.value)}
                 />
@@ -93,7 +93,6 @@ const Header = ({type})=>{
                  <span
                   onClick={() => {
                       setOpenOptions(!openOptions);
-                      console.log('options',options)
                     }}
                   className="searchText"
                 >{`${options.adult} adult · ${options.children} children · ${options.room} room`}</span>
@@ -157,7 +156,7 @@ const Header = ({type})=>{
              </>
              )}
 
-        </div>    
+            </div>    
         </div>
     )
 }
