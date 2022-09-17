@@ -26,7 +26,8 @@ const Hotel = () => {
   const [slideNumber, setSlideNumber] = useState(0);
   const [open, setOpen] = useState(false);
   const [data,setData]=useState()
-   const { user } = useContext(AuthContext);
+   const { state } = useContext(AuthContext);
+   const { user,loading, error } = state
   const navigate = useNavigate()
     const [openModal, setOpenModal] = useState(false);
 
@@ -40,7 +41,7 @@ const Hotel = () => {
 
   const days = dayDifference(date[0]?.endDate, date[0]?.startDate);
   console.log('days',days)
-console.log('user',user)
+console.log('user::',user)
 
    const handleClick = () => {
      

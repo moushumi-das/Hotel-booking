@@ -90,7 +90,22 @@ const getHotelById = async (req, res) => {
     res.status(404).json({ status: 404, _id, data: "Not Found" });
   }
 };
-
+const getHotelRoomById = async (req, res) => {
+  const client = new MongoClient(MONGO_URI, options);
+  await client.connect();
+  const db = client.db("hotelBooking");
+  try {
+   const result = await db.collection("hotels").findOne({ _id: ObjectId(req.params.hotelId) });
+ const roomList=await Promise.all(result.rooms?.map((room)=>
+ {console.log('room',room)
+   return db.collection("rooms").findOne({ _id: ObjectId(room) })}))
+    console.log("hotel searched by RoomId", roomList);
+    res.status(200).json({ status: 200, data: roomList });
+  } catch (err) {
+    console.log(err.stack);
+    res.status(404).json({ status: 404, _id, data: "Not Found" });
+  }
+};
 const getHotelsByCity = async (req,res)=>{
     const client = new MongoClient(MONGO_URI, options);
   await client.connect();
@@ -160,4 +175,4 @@ const deleteHotel = async (req, res) => {
   }
 };
 
-module.exports={addHotel,getHotelById,getHotels,deleteHotel,updateHotel,getHotelsByCity,getHotelsByType,getFeaturedHotel,getHotelsByDestination}
+module.exports={addHotel,getHotelById,getHotels,deleteHotel,updateHotel,getHotelsByCity,getHotelsByType,getHotelRoomById,getFeaturedHotel,getHotelsByDestination}

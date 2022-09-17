@@ -10,14 +10,12 @@ useUnifiedTopology: true,
 };
 const addRoom = async (req, res) => {
     const hotelId = req.params.hotelid;
-    console.log('hotelId',hotelId)
   const client = new MongoClient(MONGO_URI, options);
   await client.connect();
   const db = client.db("hotelBooking");
   try {
     const result = await db.collection("rooms").insertOne(req.body);
    const hotel=await db.collection("hotels").findOne({ _id:ObjectId(hotelId) })
-   console.log('hotel',hotel)
 
     const updatedHotel= await db.collection("hotels").updateOne({_id:ObjectId(hotelId)},{ $push:{rooms:result.insertedId}})
 
@@ -31,14 +29,12 @@ const addRoom = async (req, res) => {
 };
 
 const getRooms = async (req, res) => {
-    console.log('inside gethotels')
   const client = new MongoClient(MONGO_URI, options);
   await client.connect();
   const db = client.db("hotelBooking");
   try {
    const result = await db.collection("rooms").find().toArray();
  
-    console.log("rooms", result);
     res.status(200).json({ status: 200, data: result });
   } catch (err) {
     console.log(err.stack);
@@ -47,7 +43,6 @@ const getRooms = async (req, res) => {
 };
 
 const getRoomById = async (req, res) => {
-    console.log('inside gethotels')
   const client = new MongoClient(MONGO_URI, options);
   await client.connect();
   const db = client.db("hotelBooking");
@@ -63,7 +58,6 @@ const getRoomById = async (req, res) => {
 };
 
 const updateRoom = async (req, res) => {
-    console.log('inside gethotels')
   const client = new MongoClient(MONGO_URI, options);
   await client.connect();
   const db = client.db("hotelBooking");
@@ -82,10 +76,33 @@ const updateRoom = async (req, res) => {
   }
 };
 
+const updateRoomAvailability = async (req, res) => {
+  const client = new MongoClient(MONGO_URI, options);
+  await client.connect();
+  const db = client.db("hotelBooking");
+  try {
+  const rooms = await db.collection("rooms").findOne({ _id: ObjectId(req.params.id) });
+  const roomNum=req.params.roomnumber
+   const updatesAvailableDates = rooms.roomNumbers.map((item) =>
+      item.number.toString() === roomNum ? { ...item, unavailableDates: [...item.unavailableDates,...req.body.dates ]} : item
+    );
+    await db
+      .collection("rooms")
+      .updateOne(
+        { _id: ObjectId(rooms._id) },
+        { $set: { roomNumbers: updatesAvailableDates } }
+      );
+    
+    res.status(200).json({ status: 200,  data: rooms });
+
+  } catch (err) {
+    console.log(err.stack);
+    res.status(404).json({ status: 404,  data: "Not Found" });
+  }
+};
 const deleteRoom = async (req, res) => {
   const client = new MongoClient(MONGO_URI, options);
   const hotelId = req.params.hotelid;
-    console.log('hotelId',hotelId)
   await client.connect();
   const db = client.db("hotelBooking");
   try {
@@ -102,4 +119,4 @@ const deleteRoom = async (req, res) => {
   }
 };
 
-module.exports={addRoom,getRooms,getRoomById,deleteRoom,updateRoom}
+module.exports={addRoom,getRooms,getRoomById,deleteRoom,updateRoom,updateRoomAvailability}

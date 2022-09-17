@@ -7,12 +7,16 @@ import { SearchContext } from "../../SearchContext";
 import { useNavigate } from "react-router-dom";
 
 const Reservation = ({ setOpen, hotelId }) => {
+    console.log("inside reservation component")
   const [selectedRooms, setSelectedRooms] = useState([]);
-  const [data,setData]=useState()
+  const [data,setData]=useState();
+  const[roomNumber,setRoomNumber]=useState();
+  const [selectedRoomId,setSelectedRoomId]=useState()
 
      const fetchedHotel = async () => {
-    const response = await fetch(`/api/hotels/room/${hotelId}`);
+    const response = await fetch(`/api/room/${hotelId}`);
     const result = await response.json();
+    console.log("room information by hotelId",result)
     setData(result.data)
   };
   useEffect(() => {
@@ -46,13 +50,18 @@ const Reservation = ({ setOpen, hotelId }) => {
     return !isFound;
   };
 
-  const handleSelect = (e) => {
+  const handleSelect = (e,roomNumber,id) => {
     const checked = e.target.checked;
     const value = e.target.value;
+    setRoomNumber(roomNumber)
+    setSelectedRoomId(id)
+    console.log('selected value:',roomNumber,id)
+    console.log(typeof roomNumber)
+
     setSelectedRooms(
       checked
-        ? [...selectedRooms, value]
-        : selectedRooms.filter((item) => item !== value)
+        ? [...selectedRooms, roomNumber]
+        : selectedRooms.filter((item) => item !== roomNumber)
     );
   };
 
@@ -61,21 +70,19 @@ const Reservation = ({ setOpen, hotelId }) => {
   const handleClick = async () => {
     try {
       await Promise.all(
-        selectedRooms.map((roomId) => {
-
-    const response =  fetch(`/api/rooms/availability/${roomId}`, {
-      method: "PUT",
-      headers: {
-        "Content-Type": "application/json",
-        Accept: "application/json",
-      },
-      body: JSON.stringify({
-            date: alldates,
-        }),
-     });
-    const fetchData =  response.json();
-          return fetchData;
-        })
+        selectedRooms?.map((roomId) => {
+        const response =  fetch(`/api/availability/${selectedRoomId}/${roomNumber}`, 
+        {
+            method: "PUT",
+            headers: {
+            "Content-Type": "application/json",
+            Accept: "application/json",
+        },
+        body: JSON.stringify({ dates: alldates,}),
+        });
+        const fetchData = response.json();
+        return fetchData;
+    })
       );
       setOpen(false);
       navigate("/");
@@ -90,24 +97,24 @@ const Reservation = ({ setOpen, hotelId }) => {
           onClick={() => setOpen(false)}
         />
         <span>Select your rooms:</span>
-        {data.map((item) => (
-          <div className="rItem" key={item._id}>
+        {data?.map((item) => (
+          <div className="rItem" key={item?._id}>
             <div className="rItemInfo">
-              <div className="rTitle">{item.title}</div>
-              <div className="rDesc">{item.desc}</div>
+              <div className="rTitle">{item?.title}</div>
+              <div className="rDesc">{item?.desc}</div>
               <div className="rMax">
-                Max people: <b>{item.maxPeople}</b>
+                Max people: <b>{item?.maxPeople}</b>
               </div>
-              <div className="rPrice">{item.price}</div>
+              <div className="rPrice">{item?.price}</div>
             </div>
             <div className="rSelectRooms">
-              {item.roomNumbers.map((roomNumber) => (
+              {item?.roomNumbers?.map((roomNumber) => (
                 <div className="room">
-                  <label>{roomNumber.number}</label>
+                  <label>{roomNumber?.number}</label>
                   <input
                     type="checkbox"
-                    value={roomNumber._id}
-                    onChange={handleSelect}
+                    value={{number:roomNumber?.number,id:item._id}}
+                    onChange={(e) => handleSelect(e,roomNumber?.number,item._id)}
                     disabled={!isAvailable(roomNumber)}
                   />
                 </div>

@@ -10,7 +10,7 @@ const Login = () => {
   });
 
   const { state, dispatch } = useContext(AuthContext);
-  const {user, loading, error } = state;
+  const { user,loading, error } = state;
 
   const navigate = useNavigate()
 
@@ -24,7 +24,6 @@ const Login = () => {
     dispatch({ type: "LOGIN_START" });
 
     try {
-        console.log('credentials',credentials)
       const response = await fetch(`/api/signIn`, {
       method: "POST",
       headers: {
@@ -34,11 +33,11 @@ const Login = () => {
       body: JSON.stringify(credentials),
     });
     const fetchData = await response.json();
-    console.log('fetchData',fetchData);
     
 if (fetchData?.status===200){ 
-    localStorage.setItem("email",fetchData.data.email)
-    dispatch({ type: "LOGIN_SUCCESS", payload: fetchData.data?.details });
+    console.log(fetchData)
+    localStorage.setItem("token",fetchData?.token)
+    dispatch({ type: "LOGIN_SUCCESS", payload: fetchData.data });
       navigate("/")}
    
     } catch (err) {
@@ -46,7 +45,7 @@ if (fetchData?.status===200){
     }
   };
 
-
+console.log('user',user)
   return (
     <div className="login">
       <div className="lContainer">

@@ -4,8 +4,9 @@ import {Link}from "react-router-dom";
 import { AuthContext } from "../../AuthContext";
 
 const Navbar = ()=>{
-      const { user } = useContext(AuthContext);
-console.log(user)
+      const { state } = useContext(AuthContext);
+      const {user}=state
+console.log('user from context in navbar',user)
     return (
         <div className="navbar">
                 <div className="navContainer">

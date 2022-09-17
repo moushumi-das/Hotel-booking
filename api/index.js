@@ -1,8 +1,8 @@
 const express = require("express");
 const morgan = require("morgan");
 const {auth} =require("./handlers/auth")
-const {addHotel,getHotels,getHotelById,deleteHotel, updateHotel,getHotelsByCity,getHotelsByType,getFeaturedHotel,getHotelsByDestination}=require("./handlers/hotels");
-const {getRooms,addRoom,getRoomById,deleteRoom,updateRoom} =require("./handlers/rooms");
+const {addHotel,getHotels,getHotelById,deleteHotel, updateHotel,getHotelsByCity,getHotelsByType,getFeaturedHotel,getHotelRoomById,getHotelsByDestination}=require("./handlers/hotels");
+const {getRooms,addRoom,getRoomById,deleteRoom,updateRoom,updateRoomAvailability} =require("./handlers/rooms");
 const { signUp, signIn,updateUser }=require("./handlers/auth")
 
 require("dotenv").config();
@@ -46,17 +46,21 @@ app.get("/api/available-rooms",getRooms)
 app.post("/api/create-room/:hotelid",addRoom)
 app.delete("/api/delete-room/:room/:hotelid", deleteRoom)
 app.patch("/api/update-room/:room",updateRoom)
+app.put("/api/availability/:id/:roomnumber",updateRoomAvailability)
 
 app.post("/api/signup", signUp) // this endpoint will be used to create new user
 app.post("/api/signIn", signIn) // this endpoint will be used for sign in
 app.get("/api/countByCity",getHotelsByCity)
 app.get("/api/countByType",getHotelsByType )
+app.get("/api/room/:hotelId",getHotelRoomById)
+
 app.get("*", (req, res) => {
     res.status(404).json({
     status: 404,
     message: "This is obviously not what you are looking for.",
     });
 })
+
 app.listen(8000, () => {
     console.log(`Listening on port 8000`)
 });
