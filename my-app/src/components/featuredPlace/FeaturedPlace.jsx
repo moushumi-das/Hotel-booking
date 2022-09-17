@@ -6,14 +6,12 @@ const FeaturedComponent=()=>{
 const fetchedHotels = async () => {
     const response = await fetch(`/api/countByCity?cities=Calgary,Winnipeg`);
     const result = await response.json();
-    console.log("hotels",result)
     setFeaturedHotel(result)
     return result;
   };
   useEffect(() => {
     fetchedHotels();
   },[]);
-console.log(featuredHotel)
     return (
         <div className="featuredPlace">
            {
