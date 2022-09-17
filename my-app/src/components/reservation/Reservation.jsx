@@ -55,36 +55,38 @@ console.log('alldates',alldates)
     const value = e.target.value;
     setRoomNumber(roomNumber)
     setSelectedRoomId(id)
-  
+    const selectedRoom = {
+        id: id,
+        number: roomNumber
+    }
 
     setSelectedRooms(
       checked
-        ? [...selectedRooms, roomNumber]
-        : selectedRooms.filter((item) => item !== roomNumber)
+        ? [...selectedRooms, selectedRoom]
+        : [...selectedRooms.filter(
+            (item) => item.id !== id && item.number !== roomNumber)]
     );
   };
 
   const navigate = useNavigate();
 
   const handleClick = async () => {
+      console.log(selectedRooms);
     try {
-      await Promise.all(
-        selectedRooms?.map((roomId) => {
-        const response =  fetch(`/api/availability/${selectedRoomId}/${roomNumber}`, 
-        {
-            method: "PUT",
-            headers: {
-            "Content-Type": "application/json",
-            Accept: "application/json",
-        },
-        body: JSON.stringify({ dates: alldates,}),
-        });
-        const fetchData = response.json();
-        return fetchData;
-    })
-      );
-      setOpen(false);
-      navigate("/");
+        selectedRooms && selectedRooms.forEach(
+            async (roomToReserve) =>{
+                await fetch(`/api/availability/${roomToReserve.id}/${roomToReserve.number}`, 
+                {
+                    method: "PUT",
+                    headers: {
+                    "Content-Type": "application/json",
+                    Accept: "application/json",
+                },
+                body: JSON.stringify({ dates: alldates,}),
+                });
+            })
+        setOpen(false);
+        navigate("/");
     } catch (err) {}
   };
   return (
